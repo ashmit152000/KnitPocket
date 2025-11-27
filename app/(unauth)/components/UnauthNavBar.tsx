@@ -1,5 +1,8 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 export default function UnauthNavBar() {
+  const pathName = usePathname();
   return (
     <nav
       id="navbar"
@@ -34,6 +37,7 @@ export default function UnauthNavBar() {
             </span>
             </Link>
           </div>
+          { pathName === "/" &&
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-8">
               <a
@@ -56,9 +60,10 @@ export default function UnauthNavBar() {
               </a>
             </div>
           </div>
+          }
           <div>
             <Link
-              href="/sign-in"
+              href={pathName === "/sign-in" ? "/sign-up" : "/sign-in"}
               className="
     btn btn-glow btn-secondary 
     relative inline-flex items-center justify-center gap-2
@@ -69,7 +74,7 @@ export default function UnauthNavBar() {
     outline-none focus:outline-none focus-visible:ring-0
   "
             >
-              Sign In
+              {pathName === "/sign-in" ? "Sign Up" : "Sign In"}
             </Link>
           </div>
         </div>
