@@ -17,7 +17,7 @@ export default function PricingSection() {
                         <p className="text-sm text-gray-400 mt-1">For budget beginners</p>
                     </div>
                     <div className="mb-6">
-                        <span className="text-4xl font-bold text-white">$0</span>
+                        <span className="text-4xl font-bold text-white">₹0</span>
                         <span className="text-gray-500">/mo</span>
                     </div>
                     <ul className="space-y-4 mb-8 flex-1">
@@ -37,7 +37,7 @@ export default function PricingSection() {
                             <p className="text-sm text-gray-400 mt-1">For serious wealth builders</p>
                         </div>
                         <div className="mb-6">
-                            <span className="text-4xl font-bold text-white">$9</span>
+                            <span className="text-4xl font-bold text-white">₹199</span>
                             <span className="text-gray-500">/mo</span>
                         </div>
                         <ul className="space-y-4 mb-8 flex-1">
@@ -57,7 +57,7 @@ export default function PricingSection() {
                         <p className="text-sm text-gray-400 mt-1">Manage household finances</p>
                     </div>
                     <div className="mb-6">
-                        <span className="text-4xl font-bold text-white">$19</span>
+                        <span className="text-4xl font-bold text-white">₹399</span>
                         <span className="text-gray-500">/mo</span>
                     </div>
                     <ul className="space-y-4 mb-8 flex-1">
