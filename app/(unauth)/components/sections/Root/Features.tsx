@@ -16,7 +16,7 @@ export default function FeaturesSection(): JSX.Element {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Why Choose{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00D9FF] to-[#FF6B9D]">
-              CashFactor?
+              KnitPocket?
             </span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">

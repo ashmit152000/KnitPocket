@@ -21,53 +21,49 @@
 
 @layer components {
   .btn-primary {
-  background: linear-gradient(135deg, #00d9ff 0%, #c77dff 50%, #ff6b9d 100%);
-  box-shadow:
-    0 0 18px rgba(0, 217, 255, 0.35),
-    0 0 32px rgba(199, 125, 255, 0.28),
-    0 0 50px rgba(255, 107, 157, 0.18);
-  transition: all 0.55s ease;
-  position: relative;
-  overflow: hidden;
-}
+    background: linear-gradient(135deg, #00d9ff 0%, #c77dff 50%, #ff6b9d 100%);
+    box-shadow: 0 0 18px rgba(0, 217, 255, 0.35),
+      0 0 32px rgba(199, 125, 255, 0.28), 0 0 50px rgba(255, 107, 157, 0.18);
+    transition: all 0.55s ease;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* Hover with Premium Glow */
-.btn-primary:hover {
-  transform: translateY(-4px) scale(1.035);
+  /* Hover with Premium Glow */
+  .btn-primary:hover {
+    transform: translateY(-4px) scale(1.035);
 
-  box-shadow:
-    0 0 22px rgba(0, 217, 255, 0.55),
-    0 0 45px rgba(199, 125, 255, 0.45),
-    0 0 65px rgba(255, 107, 157, 0.38),
-    0 0 90px rgba(255, 107, 157, 0.25);
+    box-shadow: 0 0 22px rgba(0, 217, 255, 0.55),
+      0 0 45px rgba(199, 125, 255, 0.45), 0 0 65px rgba(255, 107, 157, 0.38),
+      0 0 90px rgba(255, 107, 157, 0.25);
 
-  filter: brightness(1.07) saturate(1.15);
-}
+    filter: brightness(1.07) saturate(1.15);
+  }
 
-/* Soft glow bloom from center */
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.22) 0%,
-    transparent 70%
-  );
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.8s ease, height 0.8s ease, opacity 0.8s ease;
-}
+  /* Soft glow bloom from center */
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.22) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.8s ease, height 0.8s ease, opacity 0.8s ease;
+  }
 
-.btn-primary:hover::before {
-  width: 250%;
-  height: 250%;
-  opacity: 1;
-}
+  .btn-primary:hover::before {
+    width: 250%;
+    height: 250%;
+    opacity: 1;
+  }
 
   /* Base secondary style */
   .btn-secondary {
@@ -152,31 +148,129 @@
   }
 }
 
-@keyframes glowPulse {
+/* Fade-in */
+@keyframes fade-in-up {
   0% {
-    box-shadow: 0 0 20px rgba(0,217,255,0.25),
-                0 0 40px rgba(199,125,255,0.25),
-                0 0 60px rgba(255,107,157,0.20);
-    transform: translateY(-16px);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(0,217,255,0.35),
-                0 0 60px rgba(199,125,255,0.35),
-                0 0 90px rgba(255,107,157,0.28);
-    transform: translateY(-20px);
+    opacity: 0;
+    transform: translateY(16px);
   }
   100% {
-    box-shadow: 0 0 20px rgba(0,217,255,0.25),
-                0 0 40px rgba(199,125,255,0.25),
-                0 0 60px rgba(255,107,157,0.20);
-    transform: translateY(-16px);
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease-out both;
+}
+.animate-fade-in-up-delayed {
+  animation: fade-in-up 0.8s ease-out 0.15s both;
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-fade-in-right {
+  animation: fade-in-right 0.8s ease-out 0.2s both;
+}
+
+@keyframes soft-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+.animate-soft-glow {
+  animation: soft-glow 7s ease-in-out infinite;
+}
+
+@keyframes stagger {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-stagger > * {
+  opacity: 0;
+  animation: stagger 0.6s ease-out forwards;
+}
+.animate-stagger > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.animate-stagger > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.animate-stagger > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+.animate-stagger > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+@keyframes chart-line {
+  0% {
+    stroke-dasharray: 0 400;
+  }
+  100% {
+    stroke-dasharray: 400 0;
+  }
+}
+.animate-chart-line {
+  stroke-dasharray: 400 0;
+  animation: chart-line 1.6s ease-out forwards;
+}
+@keyframes chart-fill {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-chart-fill {
+  animation: chart-fill 1s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+/* Staggered fade-up for form elements */
+.fade-stagger {
+  animation: fadeIn 0.7s ease forwards;
+  opacity: 0;
+}
+.fade-stagger:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.fade-stagger:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.fade-stagger:nth-child(3) {
+  animation-delay: 0.18s;
+}
+.fade-stagger:nth-child(4) {
+  animation-delay: 0.24s;
+}
+.fade-stagger:nth-child(5) {
+  animation-delay: 0.3s;
 }
 
 .animate-glowPulse {
   animation: glowPulse 4s ease-in-out infinite;
 }
-
 
 body {
   background: var(--background);

@@ -17,7 +17,7 @@ export default function UnauthLayout({
       <UnauthNavBar />
 
       {/* Push content below the navbar */}
-      <main className="pt-10">
+      <main>
         {children}
       </main>
     </div>

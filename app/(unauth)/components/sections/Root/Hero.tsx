@@ -1,6 +1,6 @@
-import ButtonPrimary from "../ButtonPrimary";
-import ButtonSecondary from "../ButtonSecondary";
-import VideoPanel from "../VideoPanel";
+import ButtonPrimary from "@/components/ButtonPrimary";
+import ButtonSecondary from "@/components/ButtonSecondary";
+import VideoPanel from "./VideoPanel";
 export default function HeroSection() {
   return (
     <section
