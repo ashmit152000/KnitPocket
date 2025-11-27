@@ -2,7 +2,7 @@ import UnauthNavBar from "./components/UnauthNavBar";
 import "../globals.css";
 
 export const metadata = {
-  title: "CashFactor",
+  title: "KnitPocket",
   description: "Your personal budgeting app",
 };
 

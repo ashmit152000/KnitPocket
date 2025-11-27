@@ -30,7 +30,7 @@ export default function UnauthNavBar() {
             </div>
             <Link href="/">
             <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              CashFactor<span className="text-[#00D9FF]">.io</span>
+              KnitPocket<span className="text-[#00D9FF]">.io</span>
             </span>
             </Link>
           </div>
