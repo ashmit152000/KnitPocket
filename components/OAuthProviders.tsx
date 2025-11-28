@@ -9,6 +9,10 @@ export const oauthProviders = [
 
 export function OAuthButton() { 
 
+  function handleOAuthLogin(provider: string) {
+    console.log("OAuth login:", provider);
+  }
+
     return <div className="grid grid-cols-2 gap-3 mb-8 animate-stagger">
         {oauthProviders.map((service) => (
           <button

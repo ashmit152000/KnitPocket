@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 export default function UnauthNavBar() {
   const pathName = usePathname();
   const navBarItems = ["Features", "Pricing", "Contact"];
-  const handleScroll = (e: MouseEvent, index: number) => {
+  const handleScroll = (e: React.MouseEvent<HTMLSpanElement>, index: number): void => {
     e.preventDefault();
     const sectionId = navBarItems[index].toLowerCase();
     const section = document.getElementById(sectionId);
@@ -53,7 +53,7 @@ export default function UnauthNavBar() {
                 {navBarItems.map((item, index) => (
                   <span
                     key={index}
-                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer"
                     onClick={(e) => handleScroll(e, index)}
                   >
                     {item}
