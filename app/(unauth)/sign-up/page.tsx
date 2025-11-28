@@ -8,7 +8,7 @@ import CategoryItem from "../components/sign-up/CategoryItem";
 import AuthForm from "@/components/auth-pages/Form";
 
 export default function Signup() {
-  const [showPassword, setShowPassword] = useState(false);
+  
 
   return (
     <div className="relative min-h-screen bg-[#06070d] text-white overflow-hidden">

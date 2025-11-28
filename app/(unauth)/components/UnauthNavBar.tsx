@@ -3,6 +3,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 export default function UnauthNavBar() {
   const pathName = usePathname();
+  const navBarItems = ["Features", "Pricing", "Contact"];
+  const handleScroll = (e: MouseEvent, index: number) => {
+    e.preventDefault();
+    const sectionId = navBarItems[index].toLowerCase();
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
   return (
     <nav
       id="navbar"
@@ -32,35 +42,26 @@ export default function UnauthNavBar() {
               </i>
             </div>
             <Link href="/">
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-              KnitPocket<span className="text-[#00D9FF]">.io</span>
-            </span>
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+                KnitPocket<span className="text-[#00D9FF]">.io</span>
+              </span>
             </Link>
           </div>
-          { pathName === "/" &&
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              <a
-                href="#features"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Pricing
-              </a>
-              <a
-                href="#contact"
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Contact
-              </a>
+          {pathName === "/" && (
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-8">
+                {navBarItems.map((item, index) => (
+                  <span
+                    key={index}
+                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                    onClick={(e) => handleScroll(e, index)}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          }
+          )}
           <div>
             <Link
               href={pathName === "/sign-in" ? "/sign-up" : "/sign-in"}
