@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useState } from "react";
 import { usePathname} from "next/navigation";
 import { OAuthButton } from "../OAuthProviders";
@@ -56,10 +56,20 @@ export default function AuthForm() {
 
             {!isLoginPage && <Input placeholder="Confirm Password" type={showPassword ? "text" : "password"} />}
 
-            {/* SIGNUP BUTTON */}
+            {/* SIGNUP/SIGNIN BUTTON */}
             <button className="w-full py-4 rounded-xl text-white font-semibold bg-gradient-to-r from-[#00D9FF] via-[#C77DFF] to-[#FF6B9D] hover:scale-[1.02] transition-all shadow-lg shadow-[#00D9FF]/20">
               {isLoginPage ? "Sign In To KnitPocket" : "Sign Up To KnitPocket"}
             </button>
+
+            <p className="text-gray-400 mt-6 text-center">
+            {isLoginPage ? "Don't have an account? " : "Already have an account? "} 
+            <Link
+              href={isLoginPage ? "/sign-up" : "/sign-in"}
+              className="text-[#00D9FF] hover:text-[#00b8e6]"
+            >
+              {isLoginPage ? "Sign up" : "Sign in"}
+            </Link>
+          </p>
           </form>
     </div>
 
