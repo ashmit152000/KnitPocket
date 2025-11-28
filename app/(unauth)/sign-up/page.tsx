@@ -29,16 +29,6 @@ export default function Signup() {
 
           {/* FORM */}
           <AuthForm />
-
-          <p className="text-gray-400 mt-6 text-center">
-            Already have an account?{" "}
-            <Link
-              href="/sign-in"
-              className="text-[#00D9FF] hover:text-[#00b8e6]"
-            >
-              Sign in
-            </Link>
-          </p>
         </div>
 
         {/* RIGHT HERO — PREMIUM DASHBOARD SNAPSHOTS */}
