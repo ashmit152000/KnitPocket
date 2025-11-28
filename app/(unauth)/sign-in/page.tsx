@@ -1,5 +1,5 @@
 "use client";
-import SigninForm from "../components/signin/Form";
+import AuthForm from "@/components/auth-pages/Form";
 import SigninHero from "../components/signin/Hero";
 
 export default function SignIn() {
@@ -15,7 +15,7 @@ export default function SignIn() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-10 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT: FORM */}
-          <SigninForm />
+          <AuthForm/>
 
           {/* RIGHT: HERO / DASHBOARD MOCK */}
           <SigninHero />
