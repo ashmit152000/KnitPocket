@@ -1,14 +1,35 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 import { OAuthButton } from "../OAuthProviders";
+import { handleFormSubmit } from "@/actions/auth";
+import { useActionState } from "react";
+import LineGraphLoader from "../LineGraphLoader";
+import LoaderButton from "../LoaderButton";
+
+function AuthLink({ isLoginPage }: { isLoginPage: boolean }) {
+  return (
+    <Link
+      href={isLoginPage ? "/sign-up" : "/sign-in"}
+      className="text-[#00D9FF] hover:text-[#00b8e6]"
+    >
+      {isLoginPage ? "Sign up" : "Sign in"}
+    </Link>
+  );
+}
 
 export default function AuthForm() {
-    const pathName = usePathname();
-    const isLoginPage = pathName.startsWith("/sign-in");
-    const [showPassword, setShowPassword] = useState(false);
-    return <div className="order-2 lg:order-1 animate-fade-in-up">
+  const pathName = usePathname();
+  const isLoginPage = pathName.startsWith("/sign-in");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [formState, formAction, isPending] = useActionState(handleFormSubmit, {
+    errors: [],
+  });
+
+  return (
+    <div className="order-2 lg:order-1 animate-fade-in-up">
       {/* Brand */}
       <div className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-xs text-gray-300 mb-3">
@@ -16,18 +37,20 @@ export default function AuthForm() {
           Secure • AI-powered • Multi-wallet
         </div>
         <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">
-          {isLoginPage ? "Welcome back to " : "Join " }
+          {isLoginPage ? "Welcome back to " : "Join "}
           <span className="bg-gradient-to-r from-[#00D9FF] via-[#C77DFF] to-[#FF6B9D] bg-clip-text text-transparent">
             KnitPocket
           </span>
         </h1>
         <p className="text-gray-400 text-sm sm:text-base">
-          {isLoginPage ? "Sign in to track every rupee, across bank accounts, cards, and wallets—beautifully." : "Track your money, grow your wealth, and control your financial future — beautifully."}
+          {isLoginPage
+            ? "Sign in to track every rupee, across bank accounts, cards, and wallets—beautifully."
+            : "Track your money, grow your wealth, and control your financial future — beautifully."}
         </p>
       </div>
 
       {/* OAuth buttons */}
-      <OAuthButton/>
+      <OAuthButton />
 
       {/* Divider */}
       <div className="flex items-center gap-4 mb-6">
@@ -39,54 +62,63 @@ export default function AuthForm() {
       </div>
 
       {/* Form card */}
-      <form className="space-y-5">
-            {!isLoginPage && <div className="flex gap-4">
-              <Input placeholder="First Name" />
-              <Input placeholder="Last Name" />
-            </div> }
+      <form className="space-y-5" action={formAction}>
+        {!isLoginPage && (
+          <div className="flex gap-4">
+            <Input placeholder="First Name" name="firstName" />
+            <Input placeholder="Last Name" name="lastName" />
+          </div>
+        )}
 
-            {!isLoginPage && <Input placeholder="Mobile Number" type="number" />}
-            <Input placeholder="Email Address" type="email" />
+        {!isLoginPage && (
+          <Input placeholder="Mobile Number" type="number" name="mobile" />
+        )}
+        <Input placeholder="Email Address" type="email" name="email" />
 
-            <PasswordInput
-              label="Password"
-              show={showPassword}
-              setShow={setShowPassword}
-            />
+        <PasswordInput
+          label="Password"
+          show={showPassword}
+          setShow={setShowPassword}
+        />
 
-            {!isLoginPage && <Input placeholder="Confirm Password" type={showPassword ? "text" : "password"} />}
+        {!isLoginPage && (
+          <Input
+            placeholder="Confirm Password"
+            type={showPassword ? "text" : "password"}
+            name="confirm"
+          />
+        )}
 
-            {/* SIGNUP/SIGNIN BUTTON */}
-            <button className="w-full py-4 rounded-xl text-white font-semibold bg-gradient-to-r from-[#00D9FF] via-[#C77DFF] to-[#FF6B9D] hover:scale-[1.02] transition-all shadow-lg shadow-[#00D9FF]/20">
-              {isLoginPage ? "Sign In To KnitPocket" : "Sign Up To KnitPocket"}
-            </button>
+        {/* SIGNUP/SIGNIN BUTTON */}
+        <LoaderButton isPending={isPending} loaderText="Crunching your numbers…" isLoginPage={isLoginPage} generalText={isLoginPage ? "Sign In To KnitPocket" : "Sign Up To KnitPocket"} />
 
-            <p className="text-gray-400 mt-6 text-center">
-            {isLoginPage ? "Don't have an account? " : "Already have an account? "} 
-            <Link
-              href={isLoginPage ? "/sign-up" : "/sign-in"}
-              className="text-[#00D9FF] hover:text-[#00b8e6]"
-            >
-              {isLoginPage ? "Sign up" : "Sign in"}
-            </Link>
-          </p>
-          </form>
+        <p className="text-gray-400 mt-6 text-center">
+          {isLoginPage
+            ? "Don't have an account? "
+            : "Already have an account? "}
+
+          <AuthLink isLoginPage={isLoginPage} />
+        </p>
+      </form>
     </div>
-
+  );
 }
 
 function Input({
   placeholder,
-  type = "text"
+  type = "text",
+  name,
 }: {
   placeholder: string;
   type?: string;
+  name?: string;
 }) {
   return (
     <input
       type={type}
       placeholder={placeholder}
       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-[#00D9FF] outline-none transition-all"
+      name={name}
     />
   );
 }
@@ -94,7 +126,7 @@ function Input({
 function PasswordInput({
   label,
   show,
-  setShow
+  setShow,
 }: {
   label: string;
   show: boolean;
@@ -106,6 +138,7 @@ function PasswordInput({
         type={show ? "text" : "password"}
         placeholder={label}
         className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-[#00D9FF] outline-none transition-all"
+        name="password"
       />
       <button
         type="button"

@@ -1,11 +1,18 @@
+"use client";
 import { JSX, ReactNode } from "react";
-
+import { useRouter } from "next/navigation";
 interface ButtonPrimaryProps {
   text: string;
-  icon?: ReactNode;        // optional icon (left side)
+  icon?: ReactNode;
+  pathToNavigate?: string; // optional icon (left side)
 }
 
-export default function ButtonPrimary({ text, icon }: ButtonPrimaryProps): JSX.Element {
+export default function ButtonPrimary({
+  text,
+  icon,
+  pathToNavigate,
+}: ButtonPrimaryProps): JSX.Element {
+  const router = useRouter();
   return (
     <button
       className="
@@ -17,6 +24,9 @@ export default function ButtonPrimary({ text, icon }: ButtonPrimaryProps): JSX.E
         hover:scale-[1.05] active:scale-[0.96]
         relative z-10 select-none
       "
+      onClick={() => {
+        router.push(pathToNavigate || "/");
+      }}
     >
       {icon && <span className="text-xl flex items-center">{icon}</span>}
       <span>{text}</span>

@@ -1,6 +1,7 @@
 import ButtonPrimary from "@/components/ButtonPrimary";
 import ButtonSecondary from "@/components/ButtonSecondary";
 import VideoPanel from "./VideoPanel";
+
 export default function HeroSection() {
   return (
     <section
@@ -33,7 +34,7 @@ export default function HeroSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-          <ButtonPrimary text="Start Tracking Free" />
+          <ButtonPrimary text="Start Tracking Free" pathToNavigate="/sign-up" />
           <ButtonSecondary
             text="Watch Demo"
             isSVG
