@@ -1,7 +1,7 @@
 "use client";
 import AuthForm from "@/components/auth-pages/Form";
 import SigninHero from "../components/signin/Hero";
-import Link from "next/link";
+
 export default function SignIn() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#050712] via-[#05070B] to-[#060915] text-white relative overflow-hidden">
@@ -15,9 +15,7 @@ export default function SignIn() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-10 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           {/* LEFT: FORM */}
-          <AuthForm/>
-
-          
+          <AuthForm type="signin" />
 
           {/* RIGHT: HERO / DASHBOARD MOCK */}
           <SigninHero />

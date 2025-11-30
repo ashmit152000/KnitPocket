@@ -59,6 +59,22 @@
     transition: width 0.8s ease, height 0.8s ease, opacity 0.8s ease;
   }
 
+ /* For Notification */
+  @keyframes slide-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
   .btn-primary:hover::before {
     width: 250%;
     height: 250%;
