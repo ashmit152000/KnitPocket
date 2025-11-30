@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { OAuthButton } from "../OAuthProviders";
 import { signin, signup } from "@/actions/auth";
 import { useActionState } from "react";
 import LoaderButton from "../LoaderButton";
+import Cookies from "js-cookie";
 function AuthLink({ isLoginPage }: { isLoginPage: boolean }) {
   return (
     <Link
@@ -28,14 +29,17 @@ export default function AuthForm({ type }: { type: string }) {
     success: false,
   });
 
-
   useEffect(() => {
     if (formState.success) {
       router.replace("/");
     }
-  }, [formState.success, router]);
 
-  
+    const timer = setTimeout(() => {
+      Cookies.remove("notification_status");
+    }, 1);
+
+    return () => clearTimeout(timer);
+  }, [formState.success, router]);
 
   return (
     <div className="order-2 lg:order-1 animate-fade-in-up">
