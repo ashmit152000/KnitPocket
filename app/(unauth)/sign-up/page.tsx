@@ -28,7 +28,7 @@ export default function Signup() {
           {/* Tag */}
 
           {/* FORM */}
-          <AuthForm />
+          <AuthForm type="signup"/>
         </div>
 
         {/* RIGHT HERO — PREMIUM DASHBOARD SNAPSHOTS */}

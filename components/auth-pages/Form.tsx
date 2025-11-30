@@ -1,13 +1,11 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useState, useEffect, use } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { OAuthButton } from "../OAuthProviders";
-import { handleFormSubmit } from "@/actions/auth";
+import { signin, signup } from "@/actions/auth";
 import { useActionState } from "react";
-import LineGraphLoader from "../LineGraphLoader";
 import LoaderButton from "../LoaderButton";
-
 function AuthLink({ isLoginPage }: { isLoginPage: boolean }) {
   return (
     <Link
@@ -19,14 +17,25 @@ function AuthLink({ isLoginPage }: { isLoginPage: boolean }) {
   );
 }
 
-export default function AuthForm() {
+export default function AuthForm({ type }: { type: string }) {
   const pathName = usePathname();
   const isLoginPage = pathName.startsWith("/sign-in");
   const [showPassword, setShowPassword] = useState(false);
-
-  const [formState, formAction, isPending] = useActionState(handleFormSubmit, {
+  const router = useRouter();
+  const handleFunction = type === "signup" ? signup : signin;
+  const [formState, formAction, isPending] = useActionState(handleFunction, {
     errors: [],
+    success: false,
   });
+
+
+  useEffect(() => {
+    if (formState.success) {
+      router.replace("/");
+    }
+  }, [formState.success, router]);
+
+  
 
   return (
     <div className="order-2 lg:order-1 animate-fade-in-up">
@@ -71,9 +80,13 @@ export default function AuthForm() {
         )}
 
         {!isLoginPage && (
-          <Input placeholder="Mobile Number" type="number" name="mobile" />
+          <Input
+            placeholder="Mobile Number"
+            type="number"
+            name="mobileNumber"
+          />
         )}
-        <Input placeholder="Email Address" type="email" name="email" />
+        <Input placeholder="Email Address" type="email" name="emailId" />
 
         <PasswordInput
           label="Password"
@@ -85,12 +98,29 @@ export default function AuthForm() {
           <Input
             placeholder="Confirm Password"
             type={showPassword ? "text" : "password"}
-            name="confirm"
+            name="confirmPassword"
           />
         )}
 
+        {formState?.errors && (
+          <ul>
+            {formState?.errors.map((error) => (
+              <li className="text-red-500" key={error}>
+                {error}
+              </li>
+            ))}
+          </ul>
+        )}
+
         {/* SIGNUP/SIGNIN BUTTON */}
-        <LoaderButton isPending={isPending} loaderText="Crunching your numbers…" isLoginPage={isLoginPage} generalText={isLoginPage ? "Sign In To KnitPocket" : "Sign Up To KnitPocket"} />
+        <LoaderButton
+          isPending={isPending}
+          loaderText="Crunching your numbers…"
+          isLoginPage={isLoginPage}
+          generalText={
+            isLoginPage ? "Sign In To KnitPocket" : "Sign Up To KnitPocket"
+          }
+        />
 
         <p className="text-gray-400 mt-6 text-center">
           {isLoginPage
