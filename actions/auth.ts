@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { signAccessToken, signRefreshToken } from "@/lib/jwt";
 // export async function handleFormSubmit(
 //   prevState: { errors: string[] },
 //   formData: FormData
@@ -24,8 +26,8 @@ export async function signin(
 ): Promise<{ errors: string[]; success: boolean }> {
   console.log("Sign in");
   const errors: string[] = [];
-  const email = formData.get("emailId")?.toString();
-  const password = formData.get("password")?.toString();
+  const email = formData.get("emailId") as string;
+  const password = formData.get("password") as string;
   const cookieStore = await cookies();
   const permittedKeys = ["emailId", "password"];
 
@@ -55,10 +57,26 @@ export async function signin(
       return { errors, success: false };
     }
 
-    cookieStore.set("user", JSON.stringify(user), {
+    const accessToken = signAccessToken({ userId: user.id });
+    const refreshToken = signRefreshToken({ userId: user.id });
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        refreshToken,
+      },
+    });
+    cookieStore.set("access_token", accessToken, {
       httpOnly: true,
-      path: "/",
-      maxAge: 86400 * 7,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 15, // 15 mins
+    });
+
+    cookieStore.set("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
     });
   } catch (err) {
     console.log(err);
@@ -70,6 +88,7 @@ export async function signin(
     maxAge: 5,
   });
   revalidatePath("/");
+
   return { errors: [], success: true };
 }
 
@@ -146,10 +165,27 @@ export async function signup(
         password: hashedPassword,
       },
     });
-    cookieStore.set("user", JSON.stringify(newUser), {
+    const accessToken = signAccessToken({ userId: newUser.id });
+    const refreshToken = signRefreshToken({ userId: newUser.id });
+    await prisma.user.update({
+      where: { id: newUser.id },
+      data: {
+        refreshToken,
+      },
+    });
+
+    cookieStore.set("access_token", accessToken, {
       httpOnly: true,
-      path: "/",
-      maxAge: 86400 * 7,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 15, // 15 mins
+    });
+
+    cookieStore.set("refresh_token", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24 * 30, // 30 days
     });
   } catch (err) {
     console.log(err);
@@ -175,4 +211,16 @@ export async function signup(
   // confirm Ashmit@123
 
   return { errors: [], success: true };
+}
+
+export async function logout() {
+  const cookieStore = await cookies();
+  cookieStore.delete("access_token");
+  cookieStore.delete("refresh_token");
+  cookieStore.set("notification_status", "success; Logout successful", {
+    path: "/",
+    maxAge: 5,
+  });
+  revalidatePath("/");
+  redirect("/");
 }
