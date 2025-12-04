@@ -31,7 +31,7 @@ export default function AuthForm({ type }: { type: string }) {
 
   useEffect(() => {
     if (formState.success) {
-      router.replace("/");
+      router.replace("/dashboard");
     }
 
     const timer = setTimeout(() => {
